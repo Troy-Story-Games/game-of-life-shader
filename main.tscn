@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxpvrausrnlre"]
+
+[ext_resource type="Script" uid="uid://cv2dm8rv8qajg" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="Material" uid="uid://684sqw418noh" path="res://game_of_life.tres" id="2_0xm2m"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1bvp3"]
+viewport_path = NodePath("NextGeneration")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lquwl"]
+viewport_path = NodePath("CurrentGeneration")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0xm2m"]
+viewport_path = NodePath("NextGeneration")
+
+[node name="Main" type="Node"]
+script = ExtResource("1_h2yge")
+
+[node name="CurrentGeneration" type="SubViewport" parent="."]
+size = Vector2i(256, 256)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="GameBoard" type="Sprite2D" parent="CurrentGeneration"]
+material = ExtResource("2_0xm2m")
+texture = SubResource("ViewportTexture_1bvp3")
+offset = Vector2(128, 128)
+
+[node name="NextGeneration" type="SubViewport" parent="."]
+size = Vector2i(256, 256)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="GameBoard" type="Sprite2D" parent="NextGeneration"]
+material = ExtResource("2_0xm2m")
+texture = SubResource("ViewportTexture_lquwl")
+offset = Vector2(128, 128)
+
+[node name="FinalDisplay" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_0xm2m")
