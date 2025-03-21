@@ -1,10 +1,10 @@
 /*
  * A simple Conway's Game of Life shader with no loops.
  *
- * The goal of this shader was to implement Conway's Game of Life with no loops of any kind and 
+ * The goal of this shader was to implement Conway's Game of Life with no loops of any kind and
  * to keep it as simple as possible.
  *
- * In the spirit of simplicity, this works purely with black and white. No shades, no alpha. A 
+ * In the spirit of simplicity, this works purely with black and white. No shades, no alpha. A
  * live pixel is solid white and a dead pixel is solid black. Anything in-between won't register.
  */
 shader_type canvas_item;

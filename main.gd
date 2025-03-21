@@ -4,13 +4,13 @@ class_name Main
 ## This sets the framerate. V-Sync is off in project settings otherwise
 ## this would be capped by monitor refresh rate
 ## Set to 0 to see the max speed you can run the simulation
-@export var simulation_speed: int = 5
+@export var simulation_speed: int = 90
 
 ## Set the simulation grid size
-@export var grid_size: Vector2i = Vector2i(10, 10)
+@export var grid_size: Vector2i = Vector2i(1920, 1080)
 
 ## The brush size when drawing on the screen
-@export var brush_width: float = 1.0
+@export var brush_width: float = 20.0
 
 @onready var current_gen_game_board: Sprite2D = $CurrentGeneration/GameBoard
 @onready var next_gen_game_board: Sprite2D = $NextGeneration/GameBoard
