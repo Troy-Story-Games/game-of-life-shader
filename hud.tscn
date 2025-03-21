@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxjsn2msixswj"]
+
+[ext_resource type="Script" uid="uid://buox7mxvkfgwt" path="res://hud.gd" id="1_37p78"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_37p78")
+
+[node name="HUDContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TopPanel" type="HBoxContainer" parent="HUDContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="FPSLabel" type="Label" parent="HUDContainer/MarginContainer/TopPanel"]
+layout_mode = 2
+text = "FPS: 9999"
+
+[node name="FPSLineEdit" type="LineEdit" parent="HUDContainer/MarginContainer/TopPanel"]
+layout_mode = 2
+placeholder_text = "set fps"
+
+[node name="PauseButton" type="Button" parent="HUDContainer/MarginContainer/TopPanel"]
+layout_mode = 2
+text = "Pause"
+
+[node name="ClearButton" type="Button" parent="HUDContainer/MarginContainer/TopPanel"]
+layout_mode = 2
+text = "Clear Screen"
+
+[node name="BrushSizeLabel" type="Label" parent="HUDContainer/MarginContainer/TopPanel"]
+layout_mode = 2
+text = "Brush Size: 20.0"
+
+[node name="BrushSize" type="HSlider" parent="HUDContainer/MarginContainer/TopPanel"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+min_value = 1.0
+value = 1.0
+
+[node name="GridLineEdit" type="LineEdit" parent="HUDContainer/MarginContainer/TopPanel"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+placeholder_text = "grid: 900x900"
+
+[node name="Control" type="Control" parent="HUDContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="text_submitted" from="HUDContainer/MarginContainer/TopPanel/FPSLineEdit" to="." method="_on_fps_line_edit_text_submitted"]
+[connection signal="pressed" from="HUDContainer/MarginContainer/TopPanel/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="HUDContainer/MarginContainer/TopPanel/ClearButton" to="." method="_on_clear_button_pressed"]
+[connection signal="value_changed" from="HUDContainer/MarginContainer/TopPanel/BrushSize" to="." method="_on_brush_size_value_changed"]
+[connection signal="text_submitted" from="HUDContainer/MarginContainer/TopPanel/GridLineEdit" to="." method="_on_grid_line_edit_text_submitted"]

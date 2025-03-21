@@ -4,19 +4,26 @@
  * The goal of this shader was to implement Conway's Game of Life with no loops of any kind and
  * to keep it as simple as possible.
  *
- * In the spirit of simplicity, this works purely with black and white. No shades, no alpha. A
- * live pixel is solid white and a dead pixel is solid black. Anything in-between won't register.
+ * To use this shader, refer to the viewport_technique.tscn in this folder. You need to create 2 viewports
+ * each with a child sprite and they each need to have the other as their texture as a viewport texture.
  */
 shader_type canvas_item;
 
 /*
- * These uniforms need to be controlled from GDScript. A simple _input() override
- * that gets MouseInputEvents and updates these uniforms with mouse position, and
- * whether the mouse is clicked or not will work.
+ * Set mouse_pressed and mouse_position from an _input callback in gdscript
+ * to draw on the shader.
  */
 uniform bool mouse_pressed = false;
 uniform vec2 mouse_position = vec2(0.0, 0.0);
+
+// This determines the brush diameter
 uniform float brush_width: hint_range(1.0, 1000.0, 0.1) = 10.0;
+
+// Pause the shader when true
+uniform bool paused = false;
+
+// Clear the shader when true (all pixels black)
+uniform bool clear = false;
 
 vec4 get_neighbor(sampler2D sample_texture, vec2 uv, vec2 uv_offset, vec2 pixel_size) {
     // Get the neighbor pixel at the provided offset from our current position
@@ -25,9 +32,17 @@ vec4 get_neighbor(sampler2D sample_texture, vec2 uv, vec2 uv_offset, vec2 pixel_
     return ret;
 }
 
+bool is_alive(vec4 col) {
+    // Is this color "alive"
+    float val = max(col.r, max(col.g, col.b));
+    if (val > 0.0) {
+        return true;
+    }
+    return false;
+}
+
 int is_neighbor_alive(vec4 neighbor) {
-    // If our neighbor is alive (solid white pixel) then return 1 otherwise 0.
-    if (neighbor.rgb == vec3(1.0)) {
+    if (is_alive(neighbor)) {
         return 1;
     }
     return 0;
@@ -58,13 +73,19 @@ void fragment() {
 
     vec2 distance_to_mouse = (UV / TEXTURE_PIXEL_SIZE) - mouse_position;
 
-    if (mouse_pressed && length(distance_to_mouse) < brush_width) {
-        COLOR = vec4(1.0);
+    if (clear) {
+        COLOR = vec4(vec3(0.0), 1.0);
+    } else if ((mouse_pressed && length(distance_to_mouse) < brush_width) || paused) {
+        if (mouse_pressed && length(distance_to_mouse) < brush_width) {
+            COLOR = vec4(1.0);
+        } else {
+            COLOR = COLOR;
+        }
     } else {
         //
         // Now we implement the rules
         //
-        if (COLOR.rgb == vec3(1.0) && (neighbors == 2 || neighbors == 3)) {
+        if (is_alive(COLOR) && (neighbors == 2 || neighbors == 3)) {
             // 1. If we are alive and we have 2 or 3 living neighbors we stay alive
             COLOR = COLOR;
         } else if (neighbors == 3) {

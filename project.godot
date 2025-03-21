@@ -14,14 +14,10 @@ config/name="Game of Shaders"
 run/main_scene="uid://dxpvrausrnlre"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
-[debug]
-
-settings/stdout/print_fps=true
-
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+window/size/viewport_width=900
+window/size/viewport_height=900
 window/vsync/vsync_mode=0
 
 [rendering]
